@@ -1,6 +1,13 @@
-[gd_scene format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://prefab_scenes/FPC.tscn" type="PackedScene" id=1]
+[ext_resource path="res://prefab_scenes/Map_1.tscn" type="PackedScene" id=2]
 
 [node name="Main" type="Spatial"]
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="FPC" parent="." instance=ExtResource( 1 )]
+
+[node name="Map_1" parent="." instance=ExtResource( 2 )]
