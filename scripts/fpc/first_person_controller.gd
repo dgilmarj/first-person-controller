@@ -21,6 +21,7 @@ export(float, 1.0, 10.0, 0.5) var gravity_scale = 5.0
 export(bool) var ghost = false
 
 var vertical_accel = 0.0
+var r_velocity : Vector3 = Vector3.ZERO
 
 func _ready():
 	my_camera.current = true
@@ -28,9 +29,14 @@ func _ready():
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
+	#change collision layer
 	if ghost:
-		$collider.disabled = true
+		set_collision_mask_bit(0, false)
+		set_collision_mask_bit(2, false)
+		set_collision_mask_bit(3, false)
+		
 		gravity_scale = 0
+	ray_on_floor.set_collision_mask(get_collision_mask())
 	
 func _physics_process(delta):
 	
@@ -43,10 +49,17 @@ func _physics_process(delta):
 	
 	#physics and movement
 	vertical_accel -= GRAVITY * gravity_scale * delta
+	var on_floor_bool = ray_on_floor.is_colliding()
 	var direction = Vector3(get_axis_strenght("horizontal"), 0, get_axis_strenght("vertical")).normalized()
-	var velocity = direction.rotated(Vector3.UP, deg2rad(rotation_degrees.y)) * base_speed
+	var velocity = Vector3.ZERO
+	if not ghost and not on_floor_bool:
+		velocity = lerp(r_velocity, direction.rotated(Vector3.UP, deg2rad(rotation_degrees.y)) * base_speed, 0.02)
+	elif not ghost and get_axis_strenght("horizontal") != 0 or not ghost and get_axis_strenght("vertical") != 0:
+		velocity = lerp(r_velocity, direction.rotated(Vector3.UP, deg2rad(rotation_degrees.y)) * base_speed, 0.04)
+	else:
+		velocity = lerp(r_velocity, direction.rotated(Vector3.UP, deg2rad(rotation_degrees.y)) * base_speed, 0.2)
 	
-	if not ghost and Input.is_action_just_pressed("jump") and ray_on_floor.is_colliding():
+	if not ghost and Input.is_action_just_pressed("jump") and on_floor_bool: 
 		vertical_accel = jump_height
 	elif ghost and Input.is_action_pressed("jump"):
 		vertical_accel = vertical_speed
@@ -57,7 +70,8 @@ func _physics_process(delta):
 		
 	velocity.y = vertical_accel
 	
-	vertical_accel = move_and_slide(velocity).y
+	r_velocity = move_and_slide(velocity)
+	vertical_accel = r_velocity.y
 	
 	
 func _input(event):

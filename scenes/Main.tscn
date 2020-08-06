@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://prefab_scenes/FPC.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefab_scenes/Map_1.tscn" type="PackedScene" id=2]
+[ext_resource path="res://textures/base_texture.png" type="Texture" id=3]
+
+[sub_resource type="CubeMesh" id=1]
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_texture = ExtResource( 3 )
 
 [node name="Main" type="Spatial"]
 __meta__ = {
@@ -9,5 +15,11 @@ __meta__ = {
 }
 
 [node name="FPC" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 17, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1, 0 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
 
 [node name="Map_1" parent="." instance=ExtResource( 2 )]
