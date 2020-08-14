@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/pt320.obj-e4eb1d00ba4f92cb7ab590bab0ad83c5.mesh"
+
+[deps]
+
+files=[ "res://.import/pt320.obj-e4eb1d00ba4f92cb7ab590bab0ad83c5.mesh" ]
+
+source_file="res://imported_models/OBJ/pt320.obj"
+dest_files=[ "res://.import/pt320.obj-e4eb1d00ba4f92cb7ab590bab0ad83c5.mesh", "res://.import/pt320.obj-e4eb1d00ba4f92cb7ab590bab0ad83c5.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true
